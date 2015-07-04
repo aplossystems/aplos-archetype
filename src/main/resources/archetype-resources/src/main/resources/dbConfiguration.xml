@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<db-configuration>
+	<property name="connection.driver_class">com.mysql.jdbc.Driver</property> 
+	<property name="connection.url">jdbc:mysql://localhost:3306/${artifactId}</property>
+	<property name="connection.username">${artifactId}</property>
+	<property name="connection.password">${artifactId}</property>
+	<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+</db-configuration>

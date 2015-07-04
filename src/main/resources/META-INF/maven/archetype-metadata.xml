@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
+	name="myfancytool"
+	xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<requiredProperties>
+		<requiredProperty key="projectName">
+			<defaultValue>NewProject</defaultValue>			
+		</requiredProperty>	
+		<requiredProperty key="projectType">
+			<defaultValue>cms</defaultValue>			
+		</requiredProperty>	
+	</requiredProperties>	
+	
+	<fileSets>
+		<fileSet packaged="true" filtered="true" encoding="UTF-8">
+			<directory>src/main/java</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" encoding="UTF-8" >
+			<directory>src/main/webapp</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" encoding="UTF-8" >
+			<directory>production</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/java/com/aplos/__artifactId__/beans</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/java/com/aplos/__artifactId__/backingpage</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/resources/com/aplos/__artifactId__/resources/faceletviews/__artifactId__</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/resources/com/aplos/__artifactId__/resources/faceletviews/templates</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/resources/com/aplos/__artifactId__/resources/faceletviews/templates/emailtemplates</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/resources/com/aplos/__artifactId__/resources/faceletviews/templates/printtemplates</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/java/com/aplos/__artifactId__/templates/emailtemplates</directory>
+	    </fileSet>
+		<fileSet filtered="true" encoding="UTF-8">
+	      <directory>src/main/java/com/aplos/__artifactId__/templates/printtemplates</directory>
+	    </fileSet>
+	</fileSets>
+</archetype-descriptor>

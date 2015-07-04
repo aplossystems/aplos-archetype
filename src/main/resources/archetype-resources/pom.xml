@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>${artifactId}</artifactId>
+  <version>${module.version}</version>
+  <packaging>war</packaging>
+
+  <name>${projectName}</name>
+	
+	<parent>
+        <groupId>com.aplos</groupId>
+        <artifactId>parentRoot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+	<dependencies>
+	#if( ${projectType} == "common" ) 
+		<dependency>
+			<groupId>com.aplos</groupId>
+			<artifactId>core</artifactId>
+			<version>1.8.0-ASPECT</version>
+		</dependency>
+	#end
+	#if( ${projectType} == "cms" )
+    	<dependency>
+	      <groupId>com.aplos</groupId>
+	      <artifactId>cms</artifactId>
+	      <version>1.10.0-ASPECT</version>
+	    </dependency>
+	#end
+	#if( ${projectType} == "ecommerce" )
+		<dependency>
+			<groupId>com.aplos</groupId>
+			<artifactId>ecommerce</artifactId>
+			<version>1.9.0-ASPECT</version>
+		</dependency>
+	#end
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>aplos-repo2</id>
+			<name>Aplos Systems Maven Repository</name>
+			<url>http://maven.aplossystems.co.uk/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<contextRoot>/jsf</contextRoot>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<wtpmanifest>true</wtpmanifest>
+					<wtpversion>1.0</wtpversion>
+					<manifest>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifest>
+				</configuration>
+			</plugin>	
+			
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<tasks name="Deploy app">
+								<property name="live.tomcat" value="/cygdrive/c/Tomcat7Persist/${projectName}/ROOT" />
+						
+								<exec executable="C:\Cygwin\bin\rsync" dir="${webapp}/target/${artifactId}-${module.version}">
+									<arg line="-aOvz --chmod=a+rwx,Da+rwx,Fa+rwx --delete --exclude .svn --exclude lib/*.jar . 
+							            ${server.url}:${live.tomcat}" />
+								</exec>
+								
+								<!-- Sending in the log jar gives each application it's own logging context otherwise all logs will go into one file -->
+								
+								<exec executable="C:\cygwin\bin\rsync" dir="${webapp}/target/${artifactId}-${module.version}\WEB-INF\lib">
+									<arg line="-aOvz --chmod=a+rwx,Da+rwx,Fa+rwx #if( ${projectType} == "ecommerce" ) --include /ecommerce-*.jar #end #if( ${projectType} == "cms" || ${projectType} == "ecommerce" ) --include /cms-*.jar #end --include /common-*.jar --include /core-[0-9]\.*.jar --include /log4j-*.jar --exclude /*.jar . 
+							            ${server.url}:${live.tomcat}/WEB-INF/lib" />
+								</exec>
+								
+								<exec executable="C:\Cygwin\bin\rsync" dir="${webapp}\production">
+									<arg line="-aOvz --chmod=g+w,Da+rX,Fa+r,F-X --exclude .svn . 
+							            ${server.url}:${live.tomcat}/WEB-INF" />
+								</exec>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<server.url></server.url>
+		<webapp>${ant.eclipse.workspace}/${artifactId}</webapp>
+		<module.version>${version}</module.version>
+		<ant.eclipse.workspace>C:\Users\Anthony\JavaWorkspace\Kepler</ant.eclipse.workspace>
+	</properties>
+</project>
