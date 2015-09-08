@@ -4,6 +4,6 @@
 
   <groupId>com.aplos</groupId>
   <artifactId>aplos-archetype</artifactId>
-  <version>4.4</version>
+  <version>4.5</version>
   <packaging>jar</packaging>
 </project>
